@@ -6,6 +6,7 @@ exec  &>> /tmp/out/fileerror.log
 
 if test -e $filelock
 then
+	echo "Le processus est déja en cours. Veuillez attendre pour relancer l'execution."
 	exit 22
 else
 	touch $filelock
