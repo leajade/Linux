@@ -1,26 +1,24 @@
 #!/bin/bash
 
-filelock=/tmp/out/*.lock
-exec  &> /tmp/out/fileerror.log
+filelock=/tmp/out/file.lock
+exec  &>> /tmp/out/fileerror.log
 
 
-if test -f $filelock
+if test -e $filelock
 then
-	exit >> /tmp/out/fileerror.log
+	exit 22
 else
-	touch /tmp/out/file.lock
+	touch $filelock
 	for files in /tmp/in/*
 	do
 		if test -e $files && test -f $files
 		then
-			ls $files
 			gzip -r -f $files
 			mv $files.gz  /tmp/out/
+			echo "le fichier $files a été déplacé dans /tmp/out" >> /tmp/out/fileerror.log
 		else
-			rm /tmp/out/file.lock
-			echo $? >> /tmp/out/fileerror.log
+			echo "le fichier $files n'a pas pu être compressé ou bien déplacé dans /tmp/out ou bien n'existait pas" >> /tmp/out/fileerror.log
 		fi
 	done
 	rm /tmp/out/file.lock
-	echo "le fichier $files a été déplacé dans /tmp/out" >> /tmp/out/fileerror.log
 fi
