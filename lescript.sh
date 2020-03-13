@@ -16,10 +16,10 @@ else
 		then
 			gzip -r -f $files
 			mv $files.gz  /tmp/out/
-			echo "le fichier $files a été déplacé dans /tmp/out" >> /tmp/out/fileerror.log
+			echo "le fichier $files a été déplacé dans /tmp/out"
 		else
-			echo "le fichier $files n'a pas pu être compressé ou bien déplacé dans /tmp/out ou bien n'existait pas" >> /tmp/out/fileerror.log
+			echo "le fichier $files n'a pas pu être compressé ou bien déplacé dans /tmp/out ou bien n'existait pas"
 		fi
 	done
-	rm /tmp/out/file.lock
+	rm $filelock
 fi
